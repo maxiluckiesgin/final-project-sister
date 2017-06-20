@@ -3,6 +3,10 @@
 <b> Require </b> <br/>
 1. cql <br/>
 pip install cql <br/> <br/>
+2. paho-mqtt <br/>
+pip install paho-mqtt <br/> <br/>
+3. flask <br/>
+pip install flask <br/> <br/>
 <b>JSON format to consume</b><br/>
 ```python
 [
