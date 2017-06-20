@@ -65,19 +65,3 @@ def proses() :
 scheduler = BlockingScheduler()
 scheduler.add_job(proses, 'interval', minutes=30)
 scheduler.start()
-
-#rdd.saveAsTextFile("/dummy/suhu")
-
-# Ubah dari string ke integer
-#rddInt = rdd.map(lambda x : int(x))
-#rdd = sc.textFile("/dummy/suhu")
-#rddsuhu = rdd.map(lambda x : float(x))
-
-# Cari nilai max
-#maxvalue = rddsuhu.max()
-#meanvalue = rddsuhu.mean()
-
-# Cetak hasilnya
-#print "Hasilnya adalah : ",maxvalue ," ",meanvalue
-#rddHasil = sc.parallelize([maxvalue,meanvalue])
-#rddHasil.saveAsTextFile("file:///vagrant/seratusribuAvgMax")
