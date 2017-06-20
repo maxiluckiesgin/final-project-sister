@@ -1,6 +1,6 @@
 <b> cassandra - hadoop - spark - cassandra </b> <br/>
-node_ub - run only once <br/>
-node_ub_terjadwal - run scheduled by 30 min <br/>
+<b>node_ub</b> - run only once <br/>
+<b>node_ub_terjadwal</b> - run scheduled by 30 min <br/>
 <br/>
 <b> Require </b> <br/>
 cql <br/>
