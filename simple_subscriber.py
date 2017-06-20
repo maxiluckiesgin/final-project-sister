@@ -8,7 +8,7 @@ from thread import start_new_thread
 app = Flask(__name__)
 
 # Koneksi ke cassandra dengan key sister
-db = cql.connect('192.168.56.3', 9160,  'sister', cql_version='3.0.0')
+db = cql.connect('192.168.43.66', 9160,  'sister', cql_version='3.0.0')
 
 # Inisiasi mqtt client
 mqttc = mqtt.Client("sub1", clean_session=False)
@@ -17,24 +17,14 @@ mqttc = mqtt.Client("sub1", clean_session=False)
 mqttc.connect("iot.eclipse.org", 1883)
 
 # Format data json
-data_node = [{"id" :0, "suhu" : 0, "kelembaban" : 0}, {"id" :0, "suhu" : 0, "kelembaban" : 0},{"id" :0, "suhu" : 0, "kelembaban" : 0}]
 
 # Definisi fungsi route 127.0.0.1/node
 @app.route('/node', methods=['GET'])
 def semua():
     curs = db.cursor()
-    curs.execute("SELECT * FROM ub")
+    curs.execute("SELECT * FROM dummy")
     data = curs.fetchall()
-    data_node[0]["id"] = 1
-    data_node[0]["suhu"] = int(data[0][1])
-    data_node[0]["kelembaban"] = int(data[0][2])
-    data_node[1]["id"] = 2
-    data_node[1]["suhu"] = int(data[1][1])
-    data_node[1]["kelembaban"] = int(data[1][2])
-    data_node[2]["id"] = 3
-    data_node[2]["suhu"] = int(data[2][1])
-    data_node[2]["kelembaban"] = int(data[2][2])
-    return json.dumps(data_node, sort_keys=True)
+    return json.dumps(data, sort_keys=True)
 
 # Inisiasi callback function
 def on_message(mqttc, obj, msg):
