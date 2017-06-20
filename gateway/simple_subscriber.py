@@ -85,5 +85,5 @@ mqttc.subscribe("Pasuruanub/#", qos=0)
 mqttc.subscribe("Surabayaub/#", qos=0)
 
 # Looping subscriber
-#start_new_thread(mqttc.loop_forever, ())
+start_new_thread(mqttc.loop_forever, ())
 app.run(debug=True, port=5566)
