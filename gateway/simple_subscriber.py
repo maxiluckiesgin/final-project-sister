@@ -18,13 +18,25 @@ mqttc.connect("iot.eclipse.org", 1883)
 
 # Format data json
 
+
 # Definisi fungsi route 127.0.0.1/node
 @app.route('/node', methods=['GET'])
 def semua():
     curs = db.cursor()
     curs.execute("SELECT * FROM dummy")
     data = curs.fetchall()
-    return json.dumps(data, sort_keys=True)
+    i = 0;
+    data_json = []
+    for row in data:
+        data_ = {}
+        data_['wilayah'] = row[0]
+        data_['kelembaban_avg'] = row[1]
+        data_['kelembaban_max'] = row[2]
+        data_['suhu_avg'] = row[3]
+        data_['suhu_max'] = row[4]
+        data_json.append(data_)
+        i+= 1
+    return json.dumps(data_json)
 
 # Inisiasi callback function
 def on_message(mqttc, obj, msg):
@@ -73,5 +85,5 @@ mqttc.subscribe("Pasuruanub/#", qos=0)
 mqttc.subscribe("Surabayaub/#", qos=0)
 
 # Looping subscriber
-start_new_thread(mqttc.loop_forever, ())
+#start_new_thread(mqttc.loop_forever, ())
 app.run(debug=True, port=5566)
