@@ -1,8 +1,8 @@
-<h1> cassandra - hadoop - spark - cassandra <h1> <br/>
+<b> cassandra - hadoop - spark - cassandra </b> <br/>
 node_ub - run only once <br/>
 node_ub_terjadwal - run scheduled by 30 min <br/>
 <br/>
-<h2> Require <h2> <br/>
+<b> Require </b> <br/>
 cql <br/>
 pip install cql <br/>
 apscheduler <br/>
