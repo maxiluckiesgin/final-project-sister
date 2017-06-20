@@ -1,5 +1,5 @@
-Subscriber - cassandra - webservice
-<br/>
-require cql package <br/>
-<br/>
-pip install cql
+<b> subscriber - cassandra - webservice </b> <br/>
+
+<b> Require </b> <br/>
+1. cql <br/>
+pip install cql <br/> <br/>
