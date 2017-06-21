@@ -26,7 +26,7 @@ def semua():
     curs.execute("SELECT * FROM dummy")
     data = curs.fetchall()
     i = 0;
-    data_json = []
+    data_json = {"node" : []}
     for row in data:
         data_ = {}
         data_['wilayah'] = row[0]
@@ -34,7 +34,7 @@ def semua():
         data_['kelembaban_max'] = str(row[2])
         data_['suhu_avg'] = str(row[3])
         data_['suhu_max'] = str(row[4])
-        data_json.append(data_)
+        data_json["node"].append(data_)
         i+= 1
     return json.dumps(data_json)
 
