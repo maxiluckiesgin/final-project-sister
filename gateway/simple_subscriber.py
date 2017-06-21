@@ -8,7 +8,7 @@ from thread import start_new_thread
 app = Flask(__name__)
 
 # Koneksi ke cassandra dengan key sister
-db = cql.connect('192.168.43.66', 9160,  'sister', cql_version='3.0.0')
+db = cql.connect('192.168.56.4', 9160,  'sister', cql_version='3.0.0')
 
 # Inisiasi mqtt client
 mqttc = mqtt.Client("sub1", clean_session=False)
@@ -86,4 +86,4 @@ mqttc.subscribe("Surabayaub/#", qos=0)
 
 # Looping subscriber
 start_new_thread(mqttc.loop_forever, ())
-app.run(debug=True, port=5566)
+app.run(debug=True, port=5566, host= '0.0.0.0')
