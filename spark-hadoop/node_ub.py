@@ -15,7 +15,6 @@ suhu = curs.fetchall()
 curs.execute("SELECT node,kelembaban FROM kelembaban_ub limit 100")
 kelembaban =  curs.fetchall()
 data = {'suhu_max' : [], 'kelembaban_max' : [], 'suhu_avg' : [] , 'kelembaban_avg' : []}
-
 #print suhu
 # Load dari textFile
 rddsuhu = sc.parallelize(suhu)
@@ -25,12 +24,12 @@ rddkelembaban_ = rddkelembaban.map(lambda x: Row(node=x[0], kelembaban=x[1]))
 df_suhu = sqlContext.createDataFrame(rddsuhu_)
 df_kelembaban = sqlContext.createDataFrame(rddkelembaban_)
 
-df_suhu.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("file:///vagrant/suhu.csv")
-df_kelembaban.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("file:///vagrant/kelembaban.csv")
+df_suhu.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("/datastore/suhu.csv")
+df_kelembaban.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("/datastore/kelembaban.csv")
 
 
-df_suhu_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('file:///vagrant/suhu.csv')
-df_kelembaban_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('file:///vagrant/kelembaban.csv')
+df_suhu_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('/datastore/suhu.csv')
+df_kelembaban_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('/datastore/kelembaban.csv')
 suhu_groupbyNode = df_suhu_in.groupby('node')
 kelembaban_groupbyNode = df_kelembaban_in.groupby('node')
 suhu_max = suhu_groupbyNode.agg({'suhu': 'max'}).rdd.map(list).collect()

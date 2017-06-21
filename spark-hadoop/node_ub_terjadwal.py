@@ -28,14 +28,16 @@ def proses() :
     df_suhu = sqlContext.createDataFrame(rddsuhu_)
     df_kelembaban = sqlContext.createDataFrame(rddkelembaban_)
 
-    df_suhu.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("file:///vagrant/suhu.csv")
-    df_kelembaban.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("file:///vagrant/kelembaban.csv")
+    df_suhu.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("/datastore/suhu.csv")
+    df_kelembaban.write.format('com.databricks.spark.csv').mode('overwrite').option("header", "true").save("/datastore/kelembaban.csv")
+    print "berhasil menulis ke hadoop"
 
-
-    df_suhu_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('file:///vagrant/suhu.csv')
-    df_kelembaban_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('file:///vagrant/kelembaban.csv')
+    df_suhu_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('/datastore/suhu.csv')
+    df_kelembaban_in = sqlContext.read.format('com.databricks.spark.csv').options(header='true').load('/datastore/kelembaban.csv')
+    print "berhasil load dari hadoop"
     suhu_groupbyNode = df_suhu_in.groupby('node')
     kelembaban_groupbyNode = df_kelembaban_in.groupby('node')
+    print "kalkulasi data"
     suhu_max = suhu_groupbyNode.agg({'suhu': 'max'}).rdd.map(list).collect()
     suhu_avg = suhu_groupbyNode.agg({'suhu': 'mean'}).rdd.map(list).collect()
     kelembaban_max = kelembaban_groupbyNode.agg({'kelembaban': 'max'}).rdd.map(list).collect()
@@ -48,7 +50,7 @@ def proses() :
     #print data
     #[[u'Surabayaub', u'30.0'], [u'Pasuruanub', u'39.0'], [u'Malangub', u'24.0']]
     #[[u'Surabayaub', u'66.0'], [u'Pasuruanub', u'62.0'], [u'Malangub', u'68.0']]
-
+    print "update cassandra"
     for kolom,baris in data.items():
         for node in baris:
             for nilai in node:
@@ -63,5 +65,7 @@ def proses() :
 
 
 scheduler = BlockingScheduler()
-scheduler.add_job(proses, 'interval', minutes=30)
+interval = 2
+print "menjalankan dengan interval ",interval,"detik"
+scheduler.add_job(proses, 'interval', seconds=interval)
 scheduler.start()
