@@ -9,12 +9,12 @@ pip install paho-mqtt <br/> <br/>
 pip install flask <br/> <br/>
 <b>JSON format to consume</b><br/>
 ```python
-[
-  {
-    'wilayah' : '',
-    'kelembaban_avg' :0,
-    'kelembaban_max' :0,
-    'suhu_avg' :0,
-    'suhu_max' : 0
-   }
-]
+{ "node" : [
+    {
+      'wilayah' : '',
+      'kelembaban_avg' :0,
+      'kelembaban_max' :0,
+      'suhu_avg' :0,
+      'suhu_max' : 0
+    }]
+}
