@@ -8,7 +8,7 @@ from thread import start_new_thread
 app = Flask(__name__)
 
 # Koneksi ke cassandra dengan key sister
-db = cql.connect('192.168.56.4', 9160,  'sister', cql_version='3.0.0')
+db = cql.connect('192.168.43.66', 9160,  'sister', cql_version='3.0.0')
 
 # Inisiasi mqtt client
 mqttc = mqtt.Client("sub1", clean_session=False)
@@ -30,10 +30,10 @@ def semua():
     for row in data:
         data_ = {}
         data_['wilayah'] = row[0]
-        data_['kelembaban_avg'] = row[1]
-        data_['kelembaban_max'] = row[2]
-        data_['suhu_avg'] = row[3]
-        data_['suhu_max'] = row[4]
+        data_['kelembaban_avg'] = str(row[1])
+        data_['kelembaban_max'] = str(row[2])
+        data_['suhu_avg'] = str(row[3])
+        data_['suhu_max'] = str(row[4])
         data_json.append(data_)
         i+= 1
     return json.dumps(data_json)
